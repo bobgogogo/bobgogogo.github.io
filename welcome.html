@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>聊天室</title>
+	<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="http://cdn.ronghub.com/RongIMLib-2.2.8.min.js"></script>
+</head>
+<style type="text/css">
+body{
+		width: 100%;
+		margin: 0 auto 0;
+	}
+	#main{
+		width: 640px;
+		margin: 0 auto 0;
+		text-align: center;
+	}
+	#video-body{
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		margin: 0 auto 0;
+	}
+	.active{
+		width: 100%;
+		position: absolute;
+		display: inline-block;
+		animation: barrage 5s linear;
+		animation-fill-mode: forwards;
+		color: white;
+		/*-webkit-animation:barrage 5s linear 0 1 normal forwards;
+		-moz-animation:barrage 5s linear 0 1 normal forwards;
+		-o-animation: barrage 5s linear 0 1 normal forwards;*/
+		z-index: 5;
+	}
+
+	@keyframes barrage{
+		0%{
+			left:100%;
+		}
+		100%{
+			left: -100%;
+		}
+	}
+</style>
+<body>
+	<div id="main">
+		<div id="video-body">
+		<video id="video" autoplay controls="" height="360" width="640">
+			<source id="vi"  src="1.mp4" type="video/mp4" />
+Your browser does not support the video tag.
+<div>1231231</div>
+		</video>
+		</div>
+		<div id="tools">
+			<button id="btn" type="button">添加</button>
+			<button id="pause" type="button">暂停</button>
+			<input type="text" id="user-input">
+			<button id="send" type="button">发送</button>
+		</div>
+		
+	</div>
+</body>
+<script type="text/javascript">
+
+	const app_key = "82hegw5u8ditx";
+	const userId = 1;
+	const token = "uHBtWRlbwcsNmX0uz6cnvG9LsTXHt8nefhrnXG0czOvqRBpgepR300io3fYDB1P3Hh5+Ds97wsw=";
+	var danmu = 1;
+	$("#btn").click(function(){
+		//alert(1)
+		var margintop = Math.random()*320
+		if (danmu) {
+			 $("#video-body").append("<div class='active' style='top:"+margintop+"px;'>Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!</div>");
+		} else {
+			$("#video-body").append("<div class='active' style='top:"+margintop+"px;animation-play-state:paused'>Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!</div>");
+		}
+		
+		// bindAni();
+	})
+
+	
+	$('#pause').click(function(){
+		var danmuState = $('.active').css('animation-play-state');
+		if (danmuState==='running') {
+			danmu = 0;
+			$('.active').css({'animation-play-state':'paused'})
+		} else {
+			danmu = 1;
+			$('.active').css({'animation-play-state':'running'})
+		}
+		
+		
+	})
+
+	// 设置连接监听状态 （ status 标识当前连接状态 ）
+ 	// 连接状态监听器
+ 	RongIMClient.setConnectionStatusListener({
+    	onChanged: function (status) {
+	        switch (status) {
+	            case RongIMLib.ConnectionStatus.CONNECTED:
+	                console.log('链接成功');
+	                break;
+	            case RongIMLib.ConnectionStatus.CONNECTING:
+	                console.log('正在链接');
+	                break;
+	            case RongIMLib.ConnectionStatus.DISCONNECTED:
+	                console.log('断开连接');
+	                //断开自动重连
+	                var callback = {
+				        onSuccess: function(userId) {
+				            console.log("Reconnect successfully." + userId);
+				        },
+				        onTokenIncorrect: function() {
+				            console.log('token无效');
+				        },
+				        onError:function(errorCode){
+				            console.log(errorcode);
+				        }
+				    };
+				    var config = {
+				        // 默认 false, true 启用自动重连，启用则为必选参数
+				        auto: true,
+				        // 重试频率 [100, 1000, 3000, 6000, 10000, 18000] 单位为毫秒，可选
+				        url: 'cdn.ronghub.com/RongIMLib-2.2.6.min.js',
+				        // 网络嗅探地址 [http(s)://]cdn.ronghub.com/RongIMLib-2.2.6.min.js 可选
+				        rate: [100, 1000, 3000, 6000, 10000]
+				    };
+				    RongIMClient.reconnect(callback, config);
+	                break;
+	            case RongIMLib.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT:
+	                console.log('其他设备登录');
+	                break;
+	              case RongIMLib.ConnectionStatus.DOMAIN_INCORRECT:
+	                console.log('域名不正确');
+	                break;
+	            case RongIMLib.ConnectionStatus.NETWORK_UNAVAILABLE:
+	              console.log('网络不可用');
+	              break;
+	        }
+    }});
+
+ 	// 消息监听器
+ 	RongIMClient.setOnReceiveMessageListener({
+    // 接收到的消息
+    onReceived: function (message) {
+        // 判断消息类型
+        switch(message.messageType){
+            case RongIMClient.MessageType.TextMessage:
+            		console.log(message)
+            	//var margintop = Math.random()*500
+		 		//$("#cover").append("<span class='active' style='top:"+margintop+"px;'>"+message.content.content+"</span>");
+                // message.content.content => 消息内容
+                break;
+            case RongIMClient.MessageType.VoiceMessage:
+                // 对声音进行预加载                
+                // message.content.content 格式为 AMR 格式的 base64 码
+                break;
+            case RongIMClient.MessageType.ImageMessage:
+               // message.content.content => 图片缩略图 base64。
+               // message.content.imageUri => 原图 URL。
+               break;
+            case RongIMClient.MessageType.DiscussionNotificationMessage:
+               // message.content.extension => 讨论组中的人员。
+               break;
+            case RongIMClient.MessageType.LocationMessage:
+               // message.content.latiude => 纬度。
+               // message.content.longitude => 经度。
+               // message.content.content => 位置图片 base64。
+               break;
+            case RongIMClient.MessageType.RichContentMessage:
+               // message.content.content => 文本消息内容。
+               // message.content.imageUri => 图片 base64。
+               // message.content.url => 原图 URL。
+               break;
+            case RongIMClient.MessageType.InformationNotificationMessage:
+                // do something...
+               break;
+            case RongIMClient.MessageType.ContactNotificationMessage:
+                // do something...
+               break;
+            case RongIMClient.MessageType.ProfileNotificationMessage:
+                // do something...
+               break;
+            case RongIMClient.MessageType.CommandNotificationMessage:
+                // do something...
+               break;
+            case RongIMClient.MessageType.CommandMessage:
+                // do something...
+               break;
+            case RongIMClient.MessageType.UnknownMessage:
+                // do something...
+               break;
+            default:
+                // do something...
+        }
+    }
+});
+
+//开始连接
+RongIMLib.RongIMClient.init(app_key);
+
+RongIMClient.connect(token, {
+    onSuccess: function(userId) {
+      	console.log("Connect successfully." + userId);
+      	var chatRoomId = 1; // 聊天室 Id。
+		var count = 10;// 拉取最近聊天最多 50 条。
+		RongIMClient.getInstance().joinChatRoom(chatRoomId, count, {
+		  onSuccess: function() {
+		       // 加入聊天室成功。
+		       console.log('加入聊天室成功。')
+		  },
+		  onError: function(error) {
+		  		console.log('加入聊天室失败。')
+		    // 加入聊天室失败
+		  }
+		});
+    },
+    onTokenIncorrect: function() {
+      console.log('token无效');
+    },
+    onError:function(errorCode){
+      	var info = '';
+      	switch (errorCode) {
+        	case RongIMLib.ErrorCode.TIMEOUT:
+          		info = '超时';
+          		break;
+        	case RongIMLib.ErrorCode.UNKNOWN_ERROR:
+          		info = '未知错误';
+          		break;
+        	case RongIMLib.ErrorCode.UNACCEPTABLE_PaROTOCOL_VERSION:
+          		info = '不可接受的协议版本';
+          		break;
+        	case RongIMLib.ErrorCode.IDENTIFIER_REJECTED:
+          		info = 'appkey不正确';
+          		break;
+        	case RongIMLib.ErrorCode.SERVER_UNAVAILABLE:
+          		info = '服务器不可用';
+          		break;
+      	}
+      	console.log(errorCode);
+    }
+});
+
+$("#send").click(function(){
+		var user_msg = $('#user-input').val()
+		var msg = new RongIMLib.TextMessage({content:user_msg,extra:"附加信息"});
+		var conversationtype = RongIMLib.ConversationType.CHATROOM; // 单聊,其他会话选择相应的消息类型即可。
+		var targetId = 1; // 目标 Id
+		RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
+                onSuccess: function (message) {
+                    //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
+                    console.log("Send successfully");
+                },
+                onError: function (errorCode,message) {
+                    var info = '';
+                    switch (errorCode) {
+                        case RongIMLib.ErrorCode.TIMEOUT:
+                            info = '超时';
+                            break;
+                        case RongIMLib.ErrorCode.UNKNOWN_ERROR:
+                            info = '未知错误';
+                            break;
+                        case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
+                            info = '在黑名单中，无法向对方发送消息';
+                            break;
+                        case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
+                            info = '不在讨论组中';
+                            break;
+                        case RongIMLib.ErrorCode.NOT_IN_GROUP:
+                            info = '不在群组中';
+                            break;
+                        case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
+                            info = '不在聊天室中';
+                            break;
+                        default :
+                            info = x;
+                            break;
+                    }
+                    console.log('发送失败:' + info);
+                }
+            }
+        );
+	})
+// var discussionName = "1"; // 名称自定义
+// var userIds = ["zhangsan","lisi"];//讨论组初始成员。
+// RongIMClient.getInstance().createDiscussion(discussionName,userIds,{
+//     onSuccess:function(discussionId){
+//     	console.log(1)
+//         // discussionId => 讨论组 Id。
+//     },
+//     onError:function(error){
+//     	console.log(error)
+//         // error => 创建讨论组失败错误码。
+//     }
+// });
+
+</script>
+</html>
