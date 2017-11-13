@@ -15,10 +15,10 @@ $RongCloud = new RongCloud($appKey,$appSecret);
 
 	//echo ("\n***************** user **************\n");
 	// 获取 Token 方法
-	$result = $RongCloud->user()->getToken('1', 'swb', 'http://www.rongcloud.cn/images/logo.png');
-	echo "getToken    ";
-	print_r($result);
-	echo "\n";
+	// $result = $RongCloud->user()->getToken('1', 'swb', 'http://www.rongcloud.cn/images/logo.png');
+	// echo "getToken    ";
+	// print_r($result);
+	// echo "\n";
 	
 	// // 刷新用户信息方法
 	// $result = $RongCloud->user()->refresh('userId1', 'username', 'http://www.rongcloud.cn/images/logo.png');
@@ -226,11 +226,11 @@ $RongCloud = new RongCloud($appKey,$appSecret);
 	// print_r($result);
 	// echo "\n";
 	
-	// // 加入聊天室方法
-	// $result = $RongCloud->chatroom()->join(["userId2","userid3","userId4"], 'chatroomId1');
-	// echo "join    ";
-	// print_r($result);
-	// echo "\n";
+	// 加入聊天室方法
+	$result = $RongCloud->chatroom()->join([1,2,3], 1);
+	echo "join    ";
+	print_r($result);
+	echo "\n";
 	
 	// // 查询聊天室信息方法
 	// $result = $RongCloud->chatroom()->query(["chatroomId1","chatroomId2","chatroomId3"]);
