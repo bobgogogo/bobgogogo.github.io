@@ -1,0 +1,37 @@
+body{
+		width: 100%;
+		margin: 0 auto 0;
+	}
+	#main{
+		width: 640px;
+		margin: 0 auto 0;
+		text-align: center;
+	}
+	#video-body{
+		background-color: #111;
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		margin: 0 auto 0;
+	}
+	.active{
+		width: 100%;
+		position: absolute;
+		display: inline-block;
+		animation: barrage 5s linear;
+		animation-fill-mode: forwards;
+		color: white;
+		/*-webkit-animation:barrage 5s linear 0 1 normal forwards;
+		-moz-animation:barrage 5s linear 0 1 normal forwards;
+		-o-animation: barrage 5s linear 0 1 normal forwards;*/
+		z-index: 5;
+	}
+
+	@keyframes barrage{
+		0%{
+			left:100%;
+		}
+		100%{
+			left: -100%;
+		}
+	}
