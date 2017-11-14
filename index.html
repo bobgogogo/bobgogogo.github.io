@@ -58,8 +58,9 @@ body{
 			<button id="pause" type="button">暂停</button>
 			<input type="text" id="user-input">
 			<button id="send" type="button">发送</button>
-			<a target="_blank" href="./index2.html">开启另一个聊天室</a>
+			<a target="_blank" href="./index2.html">打开另一个用户登录界面，查看实时聊天效果</a>
 		</div>
+		<div style="text-align: center;">UserId:&nbsp;<b style="">1</b></div>
 	</div>
 </body>
 <script type="text/javascript">
@@ -85,13 +86,13 @@ body{
 		textArray.push(tmp);
 		sendDanmu(tmp);
 	},500);//
-	function sendDanmu(message)
+	function sendDanmu(message,color="white")
 	{
 		var margintop = Math.random()*320
 		if (danmu) {
-			 $("#video-body").append("<div class='active' style='top:"+margintop+"px;'>"+message+"</div>");
+			 $("#video-body").append("<div class='active' style='top:"+margintop+"px;color:"+color+"'>"+message+"</div>");
 		} else {
-			$("#video-body").append("<div class='active' style='top:"+margintop+"px;animation-play-state:paused'>"+message+"</div>");
+			$("#video-body").append("<div class='active' style='top:"+margintop+"px;animation-play-state:paused;color:"+color+"'>"+message+"</div>");
 		}
 	}
 	console.log(textArray);
@@ -177,7 +178,7 @@ body{
         switch(message.messageType){
             case RongIMClient.MessageType.TextMessage:
             		console.log(message)
-            		sendDanmu(message.content.content);
+            		sendDanmu(message.content.content,'red');
             	//var margintop = Math.random()*500
 		 		//$("#cover").append("<span class='active' style='top:"+margintop+"px;'>"+message.content.content+"</span>");
                 // message.content.content => 消息内容
