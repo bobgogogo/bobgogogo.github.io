@@ -15,7 +15,7 @@ body{
 		margin: 0 auto 0;
 	}
 	.active{
-		width: 100%;
+		white-space :nowrap;
 		position: absolute;
 		display: inline-block;
 		animation: barrage 5s linear;
