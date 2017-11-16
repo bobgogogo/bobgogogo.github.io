@@ -10,16 +10,14 @@
 <body>
 	<div id="main">
 		<div id="login-info">
-			<input type="text" id="app_key" name="app_key" placeholder="appKey">
-			<input type="text" id="token" name="token" placeholder="Token">
+			<select id="app_key">
+				<option value="82hegw5u8ditx">app_key</option>
+			</select>
+			<select id="token">
+				<option value="OBgB+nUVHBN5XGlpPz/JPzLMopey/QtWNAYj3YdkcON1xOsyZ8Cd3YVpEectMJSkwBbGl3ixdnsS2ziJ0NBqHw==">用户1</option>
+				<option value="fJ5hUWSTH+JqFCBOCAXiMjLMopey/QtWNAYj3YdkcON1xOsyZ8Cd3VWW/pFpbK0nlDAiettQMMwS2ziJ0NBqHw==">用户2</option>
+			</select>
 			<button type="button" id="startinit" onclick="startInit()">链接</button>
-		</div>
-		<div>
-			app_key:82hegw5u8ditx
-			<br>
-			1:  OBgB+nUVHBN5XGlpPz/JPzLMopey/QtWNAYj3YdkcON1xOsyZ8Cd3YVpEectMJSkwBbGl3ixdnsS2ziJ0NBqHw==
-			<br>
-			2:  fJ5hUWSTH+JqFCBOCAXiMjLMopey/QtWNAYj3YdkcON1xOsyZ8Cd3VWW/pFpbK0nlDAiettQMMwS2ziJ0NBqHw==
 		</div>
 		<div id="video-body">
 		<video id="video" autoplay='true' height="360" width="640" loop="true">
@@ -136,6 +134,7 @@
                             info = '在黑名单中，无法向对方发送消息';
                             break;
                         case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
+                        	alert("请先链接聊天室")
                             info = '不在聊天室中';
                             break;
                         default :
