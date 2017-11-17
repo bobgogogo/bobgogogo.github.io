@@ -87,6 +87,7 @@ body{
 	* 弹幕发送定时任务
 	*/
 	var intval = setInterval(function(){
+		//todo array指针
 		var tmp = textArray.shift();
 		textArray.push(tmp);
 		sendDanmu(tmp);
@@ -103,6 +104,7 @@ body{
 	{
 		//弹幕高度随机
 		var margintop = Math.random()*320;
+		//todo 监听视频状态
 		if (danmu) {
 			 $("#video-body").append("<div class='active' style='top:"+margintop+"px;color:"+color+"'>"+message+"</div>");
 		} else {
